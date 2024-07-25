@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.ui.EventListener
 import androidx.databinding.ViewDataBinding
+import com.example.assignmentwbpo.databinding.FragmentUserListBinding
 
 class UserRecycleAdapter(
     var data: ArrayList<UserData>, var mEventListener: EventListener<UserData>
@@ -13,7 +14,7 @@ class UserRecycleAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val itemBinding = LayoutDataBinding.inflate(inflater, parent, false)
+        val itemBinding = FragmentUserListBinding.inflate(inflater, parent, false)
         return MyViewHolder(itemBinding)
     }
 
@@ -30,7 +31,7 @@ class UserRecycleAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) = with(holder.itemBinding) {
         val item = getItem(position)
         item.apply {
-            imageView.loadImage(url)
+//            imageView.loadImage(url)
         }
 
         root.setOnClickListener {
@@ -38,7 +39,7 @@ class UserRecycleAdapter(
         }
     }
 
-    inner class MyViewHolder(internal var itemBinding: LayoutDataBinding) :
+    inner class MyViewHolder(internal var itemBinding: FragmentUserListBinding) :
         RecyclerView.ViewHolder(itemBinding.root)
 
 }

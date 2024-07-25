@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
 
         //TODO: Mozno to netreba v scope iba ocakavanie resultu
         lifecycleScope.launch {
-            viewModel.userLogin(sharedPrefs.getString("token", null))
+//            viewModel.userRegistration(sharedPrefs.getString("token", null))
         }
 
 

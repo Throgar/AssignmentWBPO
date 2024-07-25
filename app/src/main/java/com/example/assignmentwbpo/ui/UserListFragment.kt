@@ -5,8 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import com.example.assignmentwbpo.R
+import com.example.assignmentwbpo.adapter.UserRecycleAdapter
+import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.databinding.FragmentUserListBinding
 
 /**
@@ -15,6 +15,8 @@ import com.example.assignmentwbpo.databinding.FragmentUserListBinding
 class UserListFragment : Fragment() {
 
     private var _binding: FragmentUserListBinding? = null
+    lateinit var adapter: UserRecycleAdapter
+    var userList = ArrayList<UserData>()
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -26,6 +28,8 @@ class UserListFragment : Fragment() {
     ): View {
 
         _binding = FragmentUserListBinding.inflate(inflater, container, false)
+        setAdapter()
+
         return binding.root
 
     }
@@ -36,6 +40,15 @@ class UserListFragment : Fragment() {
         /*binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
         }*/
+    }
+
+    private fun setAdapter() {
+        adapter = UserRecycleAdapter(userList, object : EventListener<UserData> {
+            override fun onItemClick(pos: Int, item: UserData, view: View) {
+
+            }
+        })
+        binding.usersRecyclerview.adapter = adapter
     }
 
     override fun onDestroyView() {
