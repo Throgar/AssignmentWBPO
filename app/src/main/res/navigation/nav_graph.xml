@@ -3,26 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/RegistrationFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/RegistrationFragment"
         android:name="com.example.assignmentwbpo.ui.RegistrationFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/registration_fragment_label"
         tools:layout="@layout/fragment_registration">
 
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            app:destination="@id/UserListFragment" />
     </fragment>
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/UserListFragment"
         android:name="com.example.assignmentwbpo.ui.UserListFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/user_list_fragment_label"
         tools:layout="@layout/fragment_user_list">
 
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            app:destination="@id/RegistrationFragment" />
     </fragment>
 </navigation>

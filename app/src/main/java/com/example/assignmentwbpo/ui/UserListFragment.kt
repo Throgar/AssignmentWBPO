@@ -8,10 +8,12 @@ import android.view.ViewGroup
 import com.example.assignmentwbpo.adapter.UserRecycleAdapter
 import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.databinding.FragmentUserListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+@AndroidEntryPoint
 class UserListFragment : Fragment() {
 
     private var _binding: FragmentUserListBinding? = null

@@ -16,3 +16,8 @@ data class UserData(
     val last_name: String,
     val avatar: URL
 )
+
+data class RegisterData(
+    val email: String,
+    val password: String
+)

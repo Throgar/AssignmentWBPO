@@ -17,6 +17,7 @@ import com.example.assignmentwbpo.viewmodel.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -26,9 +27,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
-
-        val viewModel by viewModels<UsersViewModel>()
-        val sharedPrefs = this.getSharedPreferences("registrationPrefs", Context.MODE_PRIVATE)
 
         setContentView(binding.root)
 
@@ -46,11 +44,11 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        binding.fab.setOnClickListener { view ->
+ /*       binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null)
                 .setAnchorView(R.id.fab).show()
-        }
+        }*/
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

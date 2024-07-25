@@ -11,7 +11,7 @@ android {
     compileSdk = 34
 
     hilt {
-        enableAggregatingTask = true
+        enableAggregatingTask = false
     }
 
     defaultConfig {

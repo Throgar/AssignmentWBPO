@@ -2,14 +2,22 @@ package com.example.assignmentwbpo.repo
 
 import android.content.Context
 import com.example.assignmentwbpo.api.ApiService
+import com.example.assignmentwbpo.api.RetrofitProvider
+import dagger.hilt.android.qualifiers.ApplicationContext
 import okio.IOException
 import javax.inject.Inject
+import javax.inject.Singleton
 
-class Repository @Inject constructor(private val apiService: ApiService, context: Context) {
+@Singleton
+class Repository @Inject constructor(@ApplicationContext context: Context) {
 
     val sharedPrefs = context.getSharedPreferences("registrationPrefs", Context.MODE_PRIVATE)
     suspend fun registerUser(email: String, password: String): Result<Unit> {
-        val resultRegister = apiService.registerUser(email, password).execute()
+        val client = RetrofitProvider().provideAPI(
+            RetrofitProvider().providesRetrofit(
+                RetrofitProvider().provideClient()
+            ))
+        val resultRegister = client.registerUser(email, password).execute()
         if (resultRegister.isSuccessful) {
             sharedPrefs.edit().putString("token", resultRegister.message()).apply()
             return Result.success(Unit)
