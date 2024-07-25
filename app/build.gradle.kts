@@ -10,10 +10,6 @@ android {
     namespace = "com.example.assignmentwbpo"
     compileSdk = 34
 
-    buildFeatures {
-        viewBinding = true
-    }
-
     hilt {
         enableAggregatingTask = true
     }
@@ -46,6 +42,7 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
 }
 

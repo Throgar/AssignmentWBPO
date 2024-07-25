@@ -1,5 +1,6 @@
 package com.example.assignmentwbpo
 
+import android.content.Context
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -10,9 +11,11 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.assignmentwbpo.databinding.ActivityMainBinding
 import com.example.assignmentwbpo.viewmodel.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,16 +28,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
 
         val viewModel by viewModels<UsersViewModel>()
+        val sharedPrefs = this.getSharedPreferences("registrationPrefs", Context.MODE_PRIVATE)
 
         setContentView(binding.root)
 
         setSupportActionBar(binding.toolbar)
 
-
-
         val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
+
+
+        //TODO: Mozno to netreba v scope iba ocakavanie resultu
+        lifecycleScope.launch {
+            viewModel.userLogin(sharedPrefs.getString("token", null))
+        }
+
+
 
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
