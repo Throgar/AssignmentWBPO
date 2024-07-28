@@ -5,10 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.assignmentwbpo.adapter.UserRecycleAdapter
 import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.databinding.FragmentUserListBinding
+import com.example.assignmentwbpo.viewmodel.UiStateDialog
+import com.example.assignmentwbpo.viewmodel.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -23,6 +28,7 @@ class UserListFragment : Fragment() {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    val viewModel by viewModels<UsersViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,6 +44,24 @@ class UserListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        lifecycleScope.launch {
+            viewModel.
+        }
+
+        lifecycleScope.launch {
+            viewModel.dialogState.collect {
+                when(it) {
+                    is UiStateDialog.Loading ->
+                        progressBar.visibility = View.VISIBLE
+                    is UiStateDialog.Failed ->
+                        notifDialog.visibility = View.VISIBLE
+                    is UiStateDialog.Success ->
+                        progressDialog.visibility = View.GONE
+                    notifDialog.visibility = View.GONE
+                }
+            }
+        }
 
         /*binding.buttonSecond.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)

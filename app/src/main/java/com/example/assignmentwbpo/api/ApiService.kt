@@ -2,6 +2,7 @@ package com.example.assignmentwbpo.api
 
 import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.data.RegData
+import com.example.assignmentwbpo.data.UserJsonResponse
 import com.example.assignmentwbpo.utils.Constants
 import retrofit2.Call
 import retrofit2.http.Field
@@ -10,7 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
-    @POST(Constants.registerUrl)
+    @POST("register/")
     @FormUrlEncoded
     suspend fun registerUser(
         @Field("email") email: String,
@@ -20,6 +21,6 @@ interface ApiService {
     @GET(Constants.usersUrl)
     suspend fun getUsers(
 
-    ): Call<List<UserData>>
+    ): Call<UserJsonResponse>
 
 }

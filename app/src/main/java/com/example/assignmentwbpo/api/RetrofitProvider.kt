@@ -54,6 +54,15 @@ class RetrofitProvider {
 
     @Singleton
     @Provides
+    fun providesRetrofitUsers(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder().baseUrl(Constants.usersUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
+    }
+
+    @Singleton
+    @Provides
     internal fun provideClient(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
 //        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY

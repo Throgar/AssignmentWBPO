@@ -1,12 +1,17 @@
 package com.example.assignmentwbpo.repo
 
 import android.content.Context
-import com.example.assignmentwbpo.api.ApiService
 import com.example.assignmentwbpo.api.RetrofitProvider
+import com.example.assignmentwbpo.data.UserJsonResponse
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.StateFlow
 import okio.IOException
+import retrofit2.http.GET
 import javax.inject.Inject
 import javax.inject.Singleton
+
+
+// Workaround for dialog visibility ui state
 
 @Singleton
 class Repository @Inject constructor(@ApplicationContext context: Context) {
@@ -27,8 +32,19 @@ class Repository @Inject constructor(@ApplicationContext context: Context) {
 
     }
 
-    suspend fun getUsers(url: String) {
 
+    @GET
+    suspend fun getUsers(page: Int, perPage: Int): Result<UserJsonResponse> {
+        val client = RetrofitProvider().provideAPI(
+            RetrofitProvider().providesRetrofitUsers(
+                RetrofitProvider().provideClient()
+            ))
+        val resultUsers = client.getUsers().execute()
+        if (resultUsers.isSuccessful) {
+            return Result.success(resultUsers.body()!!)
+        } else {
+            return Result.failure(IOException())
+        }
     }
 
     fun hasToken(): Boolean {
