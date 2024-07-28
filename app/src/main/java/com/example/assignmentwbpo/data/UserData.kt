@@ -4,9 +4,9 @@ import java.net.URL
 
 data class UserJsonReponse (
     val page: Int,
-    val per_page: Int,
+    val perPage: Int,
     val total: Int,
-    val total_pages: Int,
+    val totalPages: Int,
     val data: List<UserData>
 
 )
@@ -17,7 +17,7 @@ data class UserData(
     val avatar: URL
 )
 
-data class RegisterData(
-    val email: String,
-    val password: String
+data class RegData(
+    val id: Int,
+    val token: String
 )
