@@ -11,7 +11,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 
-// Workaround for dialog visibility ui state
 
 @Singleton
 class Repository @Inject constructor(@ApplicationContext context: Context) {
@@ -34,7 +33,7 @@ class Repository @Inject constructor(@ApplicationContext context: Context) {
 
 
     @GET
-    suspend fun getUsers(page: Int, perPage: Int): Result<UserJsonResponse> {
+    suspend fun getUsers(): Result<UserJsonResponse> {
         val client = RetrofitProvider().provideAPI(
             RetrofitProvider().providesRetrofitUsers(
                 RetrofitProvider().provideClient()

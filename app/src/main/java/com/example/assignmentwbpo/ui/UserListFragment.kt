@@ -7,28 +7,26 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.assignmentwbpo.adapter.UserRecycleAdapter
+import androidx.recyclerview.widget.RecyclerView
+import com.example.assignmentwbpo.adapter.UserRecyclerAdapter
 import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.databinding.FragmentUserListBinding
+import com.example.assignmentwbpo.utils.CustomDialog
 import com.example.assignmentwbpo.viewmodel.UiStateDialog
 import com.example.assignmentwbpo.viewmodel.UsersViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
-/**
- * A simple [Fragment] subclass as the second destination in the navigation.
- */
 @AndroidEntryPoint
 class UserListFragment : Fragment() {
 
     private var _binding: FragmentUserListBinding? = null
-    lateinit var adapter: UserRecycleAdapter
-    var userList = ArrayList<UserData>()
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    lateinit var adapter: UserRecyclerAdapter
+    var userList = ArrayList<UserData>()
     val viewModel by viewModels<UsersViewModel>()
+    lateinit var recyclerView: RecyclerView
+    lateinit var customDialog: CustomDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,6 +34,7 @@ class UserListFragment : Fragment() {
     ): View {
 
         _binding = FragmentUserListBinding.inflate(inflater, container, false)
+        recyclerView = binding.usersRecyclerview
         setAdapter()
 
         return binding.root
@@ -46,30 +45,37 @@ class UserListFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         lifecycleScope.launch {
-            viewModel.
+            viewModel.userList()
+        }
+
+        lifecycleScope.launch {
+            viewModel.userData.collect {
+                recyclerView
+            }
         }
 
         lifecycleScope.launch {
             viewModel.dialogState.collect {
                 when(it) {
                     is UiStateDialog.Loading ->
-                        progressBar.visibility = View.VISIBLE
-                    is UiStateDialog.Failed ->
-                        notifDialog.visibility = View.VISIBLE
-                    is UiStateDialog.Success ->
-                        progressDialog.visibility = View.GONE
-                    notifDialog.visibility = View.GONE
+                        binding.progressBar.visibility = View.VISIBLE
+                    is UiStateDialog.Failed -> {
+                        binding.progressBar.visibility = View.GONE
+                        customDialog.setProgressDialog(
+                            context = requireContext(),
+                            message = "Failed to load user list"
+                        )
+                    }
+                    is UiStateDialog.Success -> {
+                        binding.progressBar.visibility = View.GONE
+                    }
                 }
             }
         }
-
-        /*binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-        }*/
     }
 
     private fun setAdapter() {
-        adapter = UserRecycleAdapter(userList, object : EventListener<UserData> {
+        adapter = UserRecyclerAdapter(userList, object : EventListener<UserData> {
             override fun onItemClick(pos: Int, item: UserData, view: View) {
 
             }

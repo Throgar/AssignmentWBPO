@@ -5,19 +5,18 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assignmentwbpo.data.UserData
 import com.example.assignmentwbpo.ui.EventListener
-import androidx.databinding.ViewDataBinding
 import com.example.assignmentwbpo.databinding.FragmentUserListBinding
+import com.example.assignmentwbpo.utils.loadImage
 
-class UserRecycleAdapter(
+class UserRecyclerAdapter(
     var data: ArrayList<UserData>, var mEventListener: EventListener<UserData>
-) : RecyclerView.Adapter<UserRecycleAdapter.MyViewHolder>() {
+) : RecyclerView.Adapter<UserRecyclerAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val itemBinding = FragmentUserListBinding.inflate(inflater, parent, false)
         return MyViewHolder(itemBinding)
     }
-
 
     override fun getItemCount(): Int {
         return data.size
@@ -31,7 +30,10 @@ class UserRecycleAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) = with(holder.itemBinding) {
         val item = getItem(position)
         item.apply {
-//            imageView.loadImage(url)
+            avatarImage.loadImage(avatar)
+            userEmail.text = email
+            firstName.text = firstName
+            lastName.text = lastName
         }
 
         root.setOnClickListener {

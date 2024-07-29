@@ -13,8 +13,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+// Workaround for dialog visibility ui state
+
 sealed class UiStateDialog {
-    object Idle: UiStateDialog()
     object Loading: UiStateDialog()
     object Success: UiStateDialog()
     object Failed: UiStateDialog()
@@ -34,7 +35,7 @@ class UsersViewModel @Inject constructor(
     val _loginState = MutableStateFlow<RegistrationResponse>(RegistrationResponse.Idle)
     val loginState: StateFlow<RegistrationResponse> = _loginState.asStateFlow()
 
-    val _dialogState = MutableStateFlow<UiStateDialog>(UiStateDialog.Idle)
+    val _dialogState = MutableStateFlow<UiStateDialog>(UiStateDialog.Failed)
     val dialogState: StateFlow<UiStateDialog> = _dialogState.asStateFlow()
 
     val _userData = MutableStateFlow(listOf(UserData()))
@@ -54,14 +55,17 @@ class UsersViewModel @Inject constructor(
             }
     }
 
-    suspend fun userList(page: Int, perPage: Int): List<UserData> {
-        val result = repository.getUsers(page, perPage)
-        if (result.isSuccess) {
-            val something: UserJsonResponse = result.getOrDefault(UserJsonResponse())
-            _userData.value = something.data!!
-            _dialogState.value = UiStateDialog.Success
-        } else {
-            _dialogState.value = UiStateDialog.Failed
+    suspend fun userList() {
+
+        withContext(Dispatchers.IO) {
+            val result = repository.getUsers()
+            if (result.isSuccess) {
+                val something: UserJsonResponse = result.getOrDefault(UserJsonResponse())
+                _userData.value = something.data!!
+                _dialogState.value = UiStateDialog.Success
+            } else {
+                _dialogState.value = UiStateDialog.Failed
+            }
         }
     }
 

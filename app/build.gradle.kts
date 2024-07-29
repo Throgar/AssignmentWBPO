@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.hilt.gradle.plugin)
-//    alias(libs.plugins.org.jetbrains.kotlin.kapt)
     kotlin("kapt")
 }
 
@@ -57,13 +56,15 @@ dependencies {
 
     implementation(libs.hilt.android)
     kapt(libs.hilt.android.compiler)
-//    kapt("com.google.dagger:hilt-android-compiler:2.44")
+
+    implementation(libs.github.glide)
 
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
 
     testImplementation(libs.junit)
+    annotationProcessor(libs.compiler)
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
-//    kapt(libs.hilt.android.v251)
 }
